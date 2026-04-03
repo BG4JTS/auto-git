@@ -11,9 +11,9 @@ app = Flask(__name__)
 CORS(app)  # 启用CORS，允许前端访问
 
 # GitHub API认证
-github_token = os.getenv('GITHUB_TOKEN')
+github_token = os.getenv('GH_TOKEN')
 if not github_token:
-    raise ValueError('GITHUB_TOKEN environment variable is not set')
+    raise ValueError('GH_TOKEN environment variable is not set')
 
 g = Github(github_token)
 
