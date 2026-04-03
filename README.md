@@ -29,10 +29,26 @@
 
 ### 2. 配置环境变量
 
+#### 本地开发环境
 1. 打开 `backend/.env` 文件
 2. 将 `your_github_token_here` 替换为你的GitHub令牌
 
-### 3. 启动后端服务
+#### 生产环境（使用GitHub Secrets）
+1. 访问你的GitHub仓库页面
+2. 点击 "Settings" > "Secrets and variables" > "Actions"
+3. 点击 "New repository secret"
+4. 名称输入 `GITHUB_TOKEN`
+5. 值粘贴你的GitHub令牌
+6. 点击 "Add secret"
+
+### 3. 使用GitHub Dependabot Secrets
+
+GitHub Dependabot Secrets 可以用于：
+1. **CI/CD 工作流**：在 `.github/workflows` 中使用 `${{ secrets.GITHUB_TOKEN }}` 访问
+2. ** Dependabot 自动更新**：Dependabot 会自动使用这些secrets进行依赖更新
+3. **安全扫描**：确保敏感信息不会被泄露
+
+### 4. 启动后端服务
 
 ```bash
 # 进入backend目录
@@ -47,7 +63,7 @@ python app.py
 
 服务将在 `http://localhost:5000` 运行
 
-### 4. 访问前端页面
+### 5. 访问前端页面
 
 打开浏览器，访问 `frontend/index.html` 文件
 
