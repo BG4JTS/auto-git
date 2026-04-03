@@ -6,22 +6,39 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-# GitHub API认证
-github_token = os.getenv('g_token')
+# GitHub API认证 - 支持多种环境变量名称
+def get_github_token():
+    """获取GitHub Token，支持多种环境变量名称"""
+    # 尝试不同的环境变量名称
+    token_names = ['g_token', 'GITHUB_TOKEN', 'GH_TOKEN', 'GITHUB_ACCESS_TOKEN']
+    
+    for name in token_names:
+        token = os.getenv(name)
+        if token:
+            print(f"Found GitHub token in environment variable: {name}")
+            return token
+    
+    return None
+
+github_token = get_github_token()
 g = None
 
 if github_token:
     try:
         g = Github(github_token)
+        print("GitHub client initialized successfully")
     except Exception as e:
         print(f"Failed to initialize GitHub client: {e}")
+else:
+    print("Warning: No GitHub token found in environment variables")
+    print("Available environment variables:", list(os.environ.keys()))
 
 @app.route('/api/commit', methods=['POST'])
 def create_commit():
     """创建GitHub提交"""
     try:
         if not g:
-            return jsonify({'error': 'GitHub token not configured'}), 500
+            return jsonify({'error': 'GitHub token not configured. Please set g_token environment variable.'}), 500
         
         data = request.json
         
@@ -70,7 +87,7 @@ def get_repos():
     """获取用户的仓库列表"""
     try:
         if not g:
-            return jsonify({'error': 'GitHub token not configured'}), 500
+            return jsonify({'error': 'GitHub token not configured. Please set g_token environment variable.'}), 500
         
         user = g.get_user()
         repos = [{'name': repo.name, 'full_name': repo.full_name} for repo in user.get_repos()]
@@ -83,7 +100,8 @@ def health():
     """健康检查端点"""
     return jsonify({
         'status': 'ok',
-        'github_token_configured': g is not None
+        'github_token_configured': g is not None,
+        'github_token_source': 'configured' if g else 'not configured'
     })
 
 if __name__ == '__main__':
