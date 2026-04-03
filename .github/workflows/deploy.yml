@@ -34,4 +34,4 @@ jobs:
         # 这里可以添加部署命令
         echo "Deploying to production..."
       env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
