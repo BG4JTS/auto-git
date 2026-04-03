@@ -37,14 +37,14 @@
 1. 访问你的GitHub仓库页面
 2. 点击 "Settings" > "Secrets and variables" > "Actions"
 3. 点击 "New repository secret"
-4. 名称输入 `GITHUB_ACCESS_TOKEN`
+4. 名称输入 `g_token`
 5. 值粘贴你的GitHub令牌
 6. 点击 "Add secret"
 
 ### 3. 使用GitHub Dependabot Secrets
 
 GitHub Dependabot Secrets 可以用于：
-1. **CI/CD 工作流**：在 `.github/workflows` 中使用 `${{ secrets.GITHUB_ACCESS_TOKEN }}` 访问
+1. **CI/CD 工作流**：在 `.github/workflows` 中使用 `${{ secrets.g_token }}` 访问
 2. ** Dependabot 自动更新**：Dependabot 会自动使用这些secrets进行依赖更新
 3. **安全扫描**：确保敏感信息不会被泄露
 

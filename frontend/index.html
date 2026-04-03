@@ -50,7 +50,7 @@
         // 加载仓库列表
         async function loadRepos() {
             try {
-                const response = await fetch('http://localhost:5000/api/repos');
+                const response = await fetch('/api/repos');
                 const data = await response.json();
                 
                 if (data.error) {
@@ -100,7 +100,7 @@
             }
             
             try {
-                const response = await fetch('http://localhost:5000/api/commit', {
+                const response = await fetch('/api/commit', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
